@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | Future Lab</title>
+    <style>
+        * { scroll-behavior: smooth; box-sizing: border-box; }
+        body { margin: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #fff; color: #1a202c; overflow-x: hidden; }
+
+        /* 导航栏 */
+        header {
+            position: fixed; top: 0; width: 100%; height: 70px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 50px; background: rgba(255,255,255,0.9); z-index: 1000;
+            backdrop-filter: blur(10px); border-bottom: 1px solid #eee;
+        }
+        .logo { font-size: 24px; font-weight: 900; color: #10b981; letter-spacing: -1.5px; text-transform: uppercase; }
+        
+        nav { display: flex; align-items: center; }
+        nav a { color: #4b5563; text-decoration: none; margin-left: 25px; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover { color: #10b981; }
+
+        section { min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; }
+
+        /* 首页：备用深色渐变 + 随机背景 */
+        #home { 
+            background: #1a202c linear-gradient(135deg, #1a202c 0%, #065f46 100%); 
+            background-size: cover; background-position: center; color: white;
+        }
+
+        #change { background: #fff; border-left: 10px solid #10b981; }
+        h2 { font-size: 3.5rem; margin: 0; line-height: 1.1; color: #111; }
+
+        /* 材料展示 */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
+        .card { background: #f8fafc; padding: 30px; border-radius: 20px; border: 1px solid #e2e8f0; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .card h3 { margin-top: 0; color: #10b981; }
+
+        /* 实验室 */
+        #lab { background: #0f172a; color: white; text-align: center; }
+        .lab-container { background: #1e293b; padding: 40px; border-radius: 30px; max-width: 800px; margin: 40px auto; border: 1px solid #334155; }
+        .lab-inputs { display: flex; gap: 15px; margin-bottom: 25px; }
+        input { flex: 1; padding: 18px; border-radius: 12px; border: 2px solid #334155; background: #0f172a; color: white; outline: none; font-size: 1rem; }
+        input:focus { border-color: #10b981; }
+        
+        .btn-action { background: #10b981; color: white; border: none; padding: 18px 40px; font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        .btn-action:hover { background: #34d399; transform: scale(1.02); }
+
+        /* 结果展示 */
+        #res-display { margin-top: 30px; background: #fff; color: #1e293b; padding: 30px; border-radius: 20px; display: none; text-align: left; border-left: 8px solid #10b981; }
+
+        .lang-btn { background: #10b981; color: white; border: none; padding: 6px 15px; border-radius: 50px; cursor: pointer; font-size: 12px; font-weight: bold; margin-left: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">NEXUS.</div>
+        <nav>
+            <a href="#home" id="nav-1">Intro</a>
+            <a href="#change" id="nav-2">Change</a>
+            <a href="#materials" id="nav-3">Materials</a>
+            <a href="#lab" id="nav-4">Lab</a>
+            <button class="lang-btn" onclick="toggleLang()">EN / 中文</button>
+        </nav>
+    </header>
+
+    <section id="home">
+        <h1 id="h-title" style="font-size: 5rem; margin: 0; letter-spacing: -2px;">RECODE<br>THE WORLD.</h1>
+        <p id="h-desc" style="max-width: 500px; font-size: 1.2rem; margin-top: 20px; opacity: 0.9;">
+            Nature is the ultimate laboratory. We are here to learn, adapt, and build what's next.
+        </p>
+    </section>
+
+    <section id="change">
+        <span id="c-tag" style="color: #10b981; font-weight: bold; letter-spacing: 2px;">STATUS UPDATE</span>
+        <h2 id="c-main" style="margin-top: 10px;">The Earth is<br>Shifting.</h2>
+        <p id="c-desc" style="font-size: 1.3rem; color: #64748b; max-width: 700px; margin-top: 20px;">
+            The boundary between technology and biology is fading. This is the era of radical adaptation.
+        </p>
+    </section>
+
+    <section id="materials" style="background: #f8fafc;">
+        <h2 id="m-title">Future Materials</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 id="card1-t">🍄 Mycelium</h3>
+                <p id="card1-d">Grown leather from fungi roots. Zero harm, pure luxury.</p>
+            </div>
+            <div class="card">
+                <h3 id="card2-t">🌿 Seaweed</h3>
+                <p id="card2-d">Biodegradable packaging from the ocean. It dissolves in water.</p>
+            </div>
+            <div class="card">
+                <h3 id="card3-t">🍍 Piñatex</h3>
+                <p id="card3-d">Strong fiber from pineapple waste. Turning food into fabric.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="lab">
+        <h2 id="l-title">The Invention Lab</h2>
+        <p id="l-desc" style="color: #94a3b8; margin-bottom: 30px;">Input a material and a target to generate a future solution.</p>
+        <div class="lab-container">
+            <div class="lab-inputs">
+                <input type="text" id="mat-input" placeholder="Material">
+                <input type="text" id="tar-input" placeholder="Target">
+            </div>
+            <button class="btn-action" onclick="makeInvention()" id="l-btn">SYNERGIZE</button>
+            <div id="res-display">
+                <span style="font-size: 12px; font-weight: bold; color: #10b981;" id="res-tag">ARCHIVE 01</span>
+                <h3 id="res-name" style="margin: 10px 0;"></h3>
+                <p id="res-logic" style="line-height: 1.6; color: #475569;"></p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let currentLang = 'en';
+
+        // 1. 语言字典：全量覆盖
+        const dictionary = {
+            'zh': {
+                'nav-1': '愿景', 'nav-2': '现状', 'nav-3': '材料', 'nav-4': '实验室',
+                'h-title': '重构<br>这个世界。',
+                'h-desc': '自然是终极实验室。我们在此学习、适应并创造未来。',
+                'c-tag': '近况更新',
+                'c-main': '地球正在<br>发生位移。',
+                'c-desc': '技术与生物的界限正在消失。这是一个激进适应的时代。',
+                'm-title': '未来材料',
+                'card1-t': '🍄 蘑菇皮革', 'card1-d': '利用真菌根部生长的皮革。零伤害，极具质感。',
+                'card2-t': '🌿 海藻包装', 'card2-d': '来自海洋的可降解包装。甚至可以溶于水。',
+                'card3-t': '🍍 菠萝纤维', 'card3-d': '利用菠萝废料制成的强韧纤维。化厨余为布料。',
+                'l-title': '发明实验室',
+                'l-desc': '输入一种材料和一个目标，生成未来解决方案。',
+                'l-btn': '协同合成',
+                'mat-p': '输入材料 (如: 咖啡)', 'tar-p': '输入目标 (如: 杯子)',
+                'res-tag': '档案记录 01',
+                'res-logic-base': '发明逻辑：通过利用 [MAT] 的可持续特性来优化 [TAR] 的功能。'
+            },
+            'en': {
+                'nav-1': 'Intro', 'nav-2': 'Change', 'nav-3': 'Materials', 'nav-4': 'Lab',
+                'h-title': 'RECODE<br>THE WORLD.',
+                'h-desc': 'Nature is the ultimate laboratory. We are here to learn, adapt, and build what\'s next.',
+                'c-tag': 'STATUS UPDATE',
+                'c-main': 'The Earth is<br>Shifting.',
+                'c-desc': 'The boundary between technology and biology is fading. This is the era of radical adaptation.',
+                'm-title': 'Future Materials',
+                'card1-t': '🍄 Mycelium', 'card1-d': 'Grown leather from fungi roots. Zero harm, pure luxury.',
+                'card2-t': '🌿 Seaweed', 'card2-d': 'Biodegradable packaging from the ocean. It dissolves in water.',
+                'card3-t': '🍍 Piñatex', 'card3-d': 'Strong fiber from pineapple waste. Turning food into fabric.',
+                'l-title': 'The Invention Lab',
+                'l-desc': 'Input a material and a target to generate a future solution.',
+                'l-btn': 'SYNERGIZE',
+                'mat-p': 'Material', 'tar-p': 'Target',
+                'res-tag': 'ARCHIVE 01',
+                'res-logic-base': 'Invention Logic: Utilizing the sustainable properties of [MAT] to optimize the performance of [TAR].'
+            }
+        };
+
+        // 2. 翻译函数
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            const data = dictionary[currentLang];
+            
+            // 循环翻译所有 ID
+            for (let key in data) {
+                const el = document.getElementById(key);
+                if (el) {
+                    if (key === 'h-title' || key === 'c-main') el.innerHTML = data[key];
+                    else el.innerText = data[key];
+                }
+            }
+            // 翻译 Input 占位符
+            document.getElementById('mat-input').placeholder = data['mat-p'];
+            document.getElementById('tar-input').placeholder = data['tar-p'];
+        }
+
+        // 3. 发明生成逻辑
+        function makeInvention() {
+            const mat = document.getElementById('mat-input').value;
+            const tar = document.getElementById('tar-input').value;
+            if(!mat || !tar) return;
+
+            const name = currentLang === 'en' ? `The ${mat}-${tar} Project` : `${mat}能${tar}项目`;
+            const logic = dictionary[currentLang]['res-logic-base'].replace('[MAT]', mat).replace('[TAR]', tar);
+
+            document.getElementById('res-name').innerText = "✨ " + name;
+            document.getElementById('res-logic').innerText = logic;
+            document.getElementById('res-display').style.display = 'block';
+        }
+
+        // 4. 背景图加载
+        function setBg() {
+            const imageUrl = `https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1920&q=80`;
+            document.getElementById('home').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${imageUrl}')`;
+        }
+
+        window.onload = setBg;
+    </script>
+</body>
+</html>
